@@ -481,3 +481,182 @@ body {
   @apply bg-gray-500;
   box-shadow: 0 0 10px rgba(107, 114, 128, 0.5);
 }
+
+/* Enhanced responsive utilities */
+.container-responsive {
+  @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Touch-friendly targets */
+.touch-target {
+  @apply min-w-[44px] min-h-[44px] flex items-center justify-center;
+}
+
+/* Mobile navigation improvements */
+.mobile-nav {
+  @apply block sm:hidden;
+}
+
+/* Responsive text sizing */
+.text-responsive-sm {
+  @apply text-xs sm:text-sm;
+}
+
+.text-responsive-base {
+  @apply text-sm sm:text-base;
+}
+
+.text-responsive-lg {
+  @apply text-base sm:text-lg;
+}
+
+.text-responsive-xl {
+  @apply text-lg sm:text-xl lg:text-2xl;
+}
+
+.text-responsive-2xl {
+  @apply text-xl sm:text-2xl lg:text-3xl;
+}
+
+/* Responsive spacing */
+.space-responsive {
+  @apply space-y-4 sm:space-y-6 lg:space-y-8;
+}
+
+.p-responsive {
+  @apply p-4 sm:p-6 lg:p-8;
+}
+
+.px-responsive {
+  @apply px-4 sm:px-6 lg:px-8;
+}
+
+.py-responsive {
+  @apply py-4 sm:py-6 lg:py-8;
+}
+
+/* Mobile-optimized cards */
+.card-mobile {
+  @apply rounded-xl sm:rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8;
+}
+
+/* Responsive grid layouts */
+.grid-responsive-1 {
+  @apply grid grid-cols-1;
+}
+
+.grid-responsive-2 {
+  @apply grid grid-cols-1 sm:grid-cols-2;
+}
+
+.grid-responsive-3 {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+.grid-responsive-4 {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .touch-hover:active {
+    @apply scale-95 bg-white/20;
+  }
+
+  .touch-button:active {
+    @apply bg-blue-600 scale-95;
+  }
+}
+
+/* Mouse device optimizations */
+@media (hover: hover) {
+  .mouse-hover:hover {
+    @apply transform -translate-y-1 shadow-lg;
+  }
+}
+
+/* Mobile-specific styles */
+@media (max-width: 767px) {
+  .modal-mobile {
+    @apply w-full max-w-none mx-4 my-8 max-h-[calc(100vh-4rem)];
+  }
+
+  .modal-fullscreen {
+    @apply fixed inset-4 w-auto h-auto max-w-none max-h-none m-0;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tablet-optimized {
+    @apply px-6 py-8;
+  }
+}
+
+/* Desktop enhancements */
+@media (min-width: 1024px) {
+  .desktop-enhanced {
+    @apply px-8 py-12;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .retina-optimized {
+    @apply border-[0.5px];
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 767px) and (orientation: landscape) {
+  .landscape-mobile {
+    @apply text-sm py-2;
+  }
+}
+
+/* Safe area support for modern devices */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .motion-reduce {
+    @apply transition-none animate-none;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Dark mode improvements */
+@media (prefers-color-scheme: dark) {
+  .auto-dark {
+    @apply bg-gray-900 text-white;
+  }
+}
+
+/* Print styles */
+@media print {
+  .print-hidden {
+    @apply hidden;
+  }
+
+  .print-visible {
+    @apply block;
+  }
+}

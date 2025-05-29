@@ -46,22 +46,23 @@ const TodoFilters = ({ filter, onFilterChange, todoCount }) => {
       animate={{ opacity: 1, y: 0 }}
       className="w-full"
     >
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6">
         {/* Task Count */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-3"
+          className="flex items-center gap-3 sm:gap-4"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25">
-            <FunnelIcon className="w-5 h-5 text-white" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25 flex-shrink-0">
+            <FunnelIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <div>
-            <p className="text-lg font-semibold text-white">
+          <div className="min-w-0">
+            <p className="text-base sm:text-lg font-semibold text-white">
               {todoCount} {todoCount === 1 ? 'Task' : 'Tasks'} Remaining
             </p>
-            <p className="text-sm text-gray-400">
-              Filter by status to organize your workflow
+            <p className="text-xs sm:text-sm text-gray-400">
+              <span className="hidden sm:inline">Filter by status to organize your workflow</span>
+              <span className="sm:hidden">Filter by status</span>
             </p>
           </div>
         </motion.div>
@@ -70,9 +71,9 @@ const TodoFilters = ({ filter, onFilterChange, todoCount }) => {
         <motion.div 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="relative"
+          className="relative w-full sm:w-auto"
         >
-          <div className="flex gap-2 p-1.5 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+          <div className="flex gap-1 sm:gap-2 p-1 sm:p-1.5 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-white/20">
             {filters.map((f, index) => {
               const isActive = filter === f.value;
               const Icon = f.icon;
@@ -86,7 +87,7 @@ const TodoFilters = ({ filter, onFilterChange, todoCount }) => {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onFilterChange(f.value)}
-                  className={`relative px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center gap-2 min-w-fit ${
+                  className={`relative flex-1 sm:flex-none px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 min-w-fit touch-target ${
                     isActive
                       ? `${f.bg} ${f.color} border ${f.border} shadow-lg`
                       : 'text-gray-300 hover:bg-white/10 hover:text-white'
@@ -96,22 +97,22 @@ const TodoFilters = ({ filter, onFilterChange, todoCount }) => {
                   {isActive && (
                     <motion.div
                       layoutId="activeFilter"
-                      className={`absolute inset-0 ${f.bg} rounded-xl border ${f.border}`}
+                      className={`absolute inset-0 ${f.bg} rounded-lg sm:rounded-xl border ${f.border}`}
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
                   
                   {/* Content */}
-                  <div className="relative z-10 flex items-center gap-2">
-                    <Icon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{f.label}</span>
-                    <span className="sm:hidden">{f.value === 'all' ? 'All' : f.label}</span>
+                  <div className="relative z-10 flex items-center gap-1 sm:gap-2">
+                    <Icon className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span className="hidden md:inline">{f.label}</span>
+                    <span className="md:hidden">{f.value === 'all' ? 'All' : f.value === 'active' ? 'Active' : 'Done'}</span>
                   </div>
 
                   {/* Hover effect */}
                   {!isActive && (
                     <motion.div
-                      className="absolute inset-0 bg-white/10 rounded-xl opacity-0 hover:opacity-100 transition-opacity"
+                      className="absolute inset-0 bg-white/10 rounded-lg sm:rounded-xl opacity-0 hover:opacity-100 transition-opacity"
                       whileHover={{ opacity: 0.5 }}
                     />
                   )}
@@ -122,7 +123,7 @@ const TodoFilters = ({ filter, onFilterChange, todoCount }) => {
 
           {/* Active filter glow effect */}
           <motion.div
-            className={`absolute inset-0 rounded-2xl blur-xl opacity-20 -z-10 ${
+            className={`absolute inset-0 rounded-xl sm:rounded-2xl blur-xl opacity-20 -z-10 ${
               activeFilter ? activeFilter.bg : 'bg-blue-500/20'
             }`}
             animate={{ 
@@ -143,12 +144,27 @@ const TodoFilters = ({ filter, onFilterChange, todoCount }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="mt-4 text-center lg:text-left"
+        className="mt-3 sm:mt-4 text-center sm:text-left"
       >
-        <p className="text-sm text-gray-400">
-          {filter === 'all' && 'Showing all tasks in your workspace'}
-          {filter === 'active' && 'Showing tasks that need your attention'}
-          {filter === 'completed' && 'Showing your completed achievements'}
+        <p className="text-xs sm:text-sm text-gray-400">
+          {filter === 'all' && (
+            <>
+              <span className="hidden sm:inline">Showing all tasks in your workspace</span>
+              <span className="sm:hidden">All your tasks</span>
+            </>
+          )}
+          {filter === 'active' && (
+            <>
+              <span className="hidden sm:inline">Showing tasks that need your attention</span>
+              <span className="sm:hidden">Tasks to complete</span>
+            </>
+          )}
+          {filter === 'completed' && (
+            <>
+              <span className="hidden sm:inline">Showing your completed achievements</span>
+              <span className="sm:hidden">Completed tasks</span>
+            </>
+          )}
         </p>
       </motion.div>
     </motion.div>

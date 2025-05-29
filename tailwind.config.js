@@ -2,6 +2,21 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
+    screens: {
+      'xs': '375px',     // Small mobile phones
+      'sm': '640px',     // Large mobile phones
+      'md': '768px',     // Tablets
+      'lg': '1024px',    // Small laptops
+      'xl': '1280px',    // Large laptops
+      '2xl': '1536px',   // Desktop monitors
+      '3xl': '1920px',   // Large monitors
+      // Custom breakpoints for better control
+      'mobile': {'max': '767px'},
+      'tablet': {'min': '768px', 'max': '1023px'},
+      'desktop': {'min': '1024px'},
+      'touch': {'raw': '(hover: none)'},
+      'mouse': {'raw': '(hover: hover)'},
+    },
     extend: {
       colors: {
         primary: {

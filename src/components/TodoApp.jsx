@@ -26,7 +26,7 @@ function TodoApp({ onBackToLanding }) {
   const activeTodoCount = todos.filter((todo) => !todo.completed).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-gray-800 to-slate-800 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-gray-800 to-slate-800 relative overflow-hidden safe-area-top safe-area-bottom">
       {/* Enhanced Animated background elements */}
       <div className="absolute inset-0 -z-10">
         <motion.div
@@ -88,26 +88,26 @@ function TodoApp({ onBackToLanding }) {
 
       <div className="relative z-10">
         {/* Premium Container with better max-width */}
-        <div className="container mx-auto px-6 py-12 max-w-7xl">
+        <div className="container-responsive py-6 sm:py-8 lg:py-12">
           {/* Back to Landing Button - Enhanced */}
           {onBackToLanding && (
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
               <motion.button
                 whileHover={{ scale: 1.05, x: -5 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onBackToLanding}
-                className="group relative overflow-hidden"
+                className="group relative overflow-hidden touch-target"
               >
                 {/* Button glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl blur-xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl blur-xl"></div>
                 
                 {/* Button content */}
-                <div className="relative flex items-center gap-3 px-6 py-4 text-sm font-medium text-gray-300 hover:text-blue-400 bg-white/8 backdrop-blur-xl border border-white/20 rounded-2xl hover:bg-white/12 hover:border-blue-400/30 transition-all duration-300 shadow-xl">
-                  <svg className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="relative flex items-center gap-2 sm:gap-3 px-4 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-medium text-gray-300 hover:text-blue-400 bg-white/8 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl hover:bg-white/12 hover:border-blue-400/30 transition-all duration-300 shadow-xl">
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4 group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                   <span>Back to Landing</span>
@@ -117,15 +117,15 @@ function TodoApp({ onBackToLanding }) {
           )}
 
           {/* Premium Main Layout Grid */}
-          <div className="mt-8">
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+          <div className="mt-4 sm:mt-8">
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 sm:gap-8">
               
               {/* Left Column - Enhanced Stats Dashboard */}
               <motion.div 
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="xl:col-span-4 space-y-6"
+                className="xl:col-span-4 space-y-4 sm:space-y-6 order-2 xl:order-1"
               >
                 <TodoStats todos={todos} />
                 
@@ -137,19 +137,19 @@ function TodoApp({ onBackToLanding }) {
                   className="relative group"
                 >
                   {/* Background glow */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-2xl sm:rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   
                   {/* Info card */}
-                  <div className="relative bg-white/8 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-xl group-hover:bg-white/12 transition-all duration-300">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="relative bg-white/8 backdrop-blur-xl border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl group-hover:bg-white/12 transition-all duration-300 card-mobile">
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg flex-shrink-0">
+                        <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-white mb-1">Productivity Boost</h3>
-                        <p className="text-white/70 text-sm">Stay organized and achieve your goals with Task Flow Pro</p>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base sm:text-lg font-bold text-white mb-1">Productivity Boost</h3>
+                        <p className="text-white/70 text-xs sm:text-sm">Stay organized and achieve your goals with Task Flow Pro</p>
                       </div>
                     </div>
                   </div>
@@ -161,7 +161,7 @@ function TodoApp({ onBackToLanding }) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
-                className="xl:col-span-8 space-y-8"
+                className="xl:col-span-8 space-y-6 sm:space-y-8 order-1 xl:order-2"
               >
                 
                 {/* Todo Form Section */}
@@ -182,10 +182,10 @@ function TodoApp({ onBackToLanding }) {
                   className="relative"
                 >
                   {/* Background glow */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 rounded-3xl blur-xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 rounded-2xl sm:rounded-3xl blur-xl"></div>
                   
                   {/* Filters card */}
-                  <div className="relative bg-white/8 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-xl">
+                  <div className="relative bg-white/8 backdrop-blur-xl border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl card-mobile">
                     <TodoFilters
                       filter={filter}
                       onFilterChange={setFilter}

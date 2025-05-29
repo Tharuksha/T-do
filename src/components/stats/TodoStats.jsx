@@ -79,7 +79,7 @@ const TodoStats = ({ todos }) => {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
     >
       {/* Header */}
       <motion.div
@@ -89,32 +89,38 @@ const TodoStats = ({ todos }) => {
         className="relative"
       >
         {/* Background glow */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-3xl blur-xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-2xl sm:rounded-3xl blur-xl"></div>
         
         {/* Header card */}
-        <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl">
-          <div className="flex items-center gap-4">
+        <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl card-mobile">
+          <div className="flex items-center gap-3 sm:gap-4">
             <motion.div
               animate={{ rotate: [0, 5, -5, 0] }}
               transition={{ duration: 4, repeat: Infinity }}
-              className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25"
+              className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25 flex-shrink-0"
             >
-              <ChartBarIcon className="w-7 h-7 text-white" />
+              <ChartBarIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
             </motion.div>
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white mb-1">Dashboard</h2>
-              <p className="text-blue-200">Track your productivity insights</p>
+            <div className="flex-1 min-w-0">
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1">Dashboard</h2>
+              <p className="text-blue-200 text-xs sm:text-sm lg:text-base">
+                <span className="hidden sm:inline">Track your productivity insights</span>
+                <span className="sm:hidden">Your progress</span>
+              </p>
             </div>
-            <div className="text-right">
-              <div className="text-3xl font-black text-white mb-1">{todos.length}</div>
-              <div className="text-sm text-blue-300">Total Tasks</div>
+            <div className="text-right flex-shrink-0">
+              <div className="text-xl sm:text-2xl lg:text-3xl font-black text-white mb-1">{todos.length}</div>
+              <div className="text-xs sm:text-sm text-blue-300">
+                <span className="hidden sm:inline">Total Tasks</span>
+                <span className="sm:hidden">Tasks</span>
+              </div>
             </div>
           </div>
         </div>
       </motion.div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         {stats.map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -122,24 +128,24 @@ const TodoStats = ({ todos }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 0.1 * index, duration: 0.3 }}
             whileHover={{ scale: 1.02, y: -2 }}
-            className="relative group"
+            className="relative group touch-hover"
           >
             {/* Background glow */}
-            <div className={`absolute inset-0 bg-gradient-to-r ${stat.gradient} opacity-0 group-hover:opacity-20 rounded-2xl blur-xl transition-opacity duration-300`}></div>
+            <div className={`absolute inset-0 bg-gradient-to-r ${stat.gradient} opacity-0 group-hover:opacity-20 rounded-xl sm:rounded-2xl blur-xl transition-opacity duration-300`}></div>
             
             {/* Card */}
-            <div className={`relative bg-white/8 backdrop-blur-xl border ${stat.border} rounded-2xl p-6 shadow-xl group-hover:bg-white/12 group-hover:border-opacity-50 transition-all duration-300`}>
-              <div className="flex items-center justify-between mb-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg`}>
-                  <stat.icon className="w-6 h-6 text-white" />
+            <div className={`relative bg-white/8 backdrop-blur-xl border ${stat.border} rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl group-hover:bg-white/12 group-hover:border-opacity-50 transition-all duration-300 card-mobile`}>
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center shadow-lg flex-shrink-0`}>
+                  <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
                 </div>
-                <div className="text-2xl">{stat.emoji}</div>
+                <div className="text-lg sm:text-xl lg:text-2xl">{stat.emoji}</div>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-1 sm:space-y-2">
                 <div className="flex items-baseline justify-between">
-                  <h3 className="text-sm font-semibold text-white/80">{stat.label}</h3>
-                  <div className={`text-2xl font-bold ${stat.color}`}>
+                  <h3 className="text-xs sm:text-sm font-semibold text-white/80">{stat.label}</h3>
+                  <div className={`text-lg sm:text-xl lg:text-2xl font-bold ${stat.color}`}>
                     {stat.value}
                   </div>
                 </div>
@@ -156,32 +162,36 @@ const TodoStats = ({ todos }) => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5 }}
-          className="relative group"
+          className="relative group touch-hover"
         >
           {/* Background glow */}
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/30 to-teal-600/30 rounded-3xl blur-xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/30 to-teal-600/30 rounded-2xl sm:rounded-3xl blur-xl"></div>
           
           {/* Achievement card */}
-          <div className="relative bg-white/10 backdrop-blur-xl border border-emerald-500/30 rounded-3xl p-6 shadow-2xl">
-            <div className="flex items-center gap-4">
+          <div className="relative bg-white/10 backdrop-blur-xl border border-emerald-500/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl card-mobile">
+            <div className="flex items-center gap-3 sm:gap-4">
               <motion.div
                 animate={{ 
                   rotate: [0, 10, -10, 0],
                   scale: [1, 1.1, 1]
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/25"
+                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/25 flex-shrink-0"
               >
-                <TrophyIcon className="w-7 h-7 text-white" />
+                <TrophyIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
               </motion.div>
-              <div className="flex-1">
-                <h3 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
-                  Excellent Progress! 
-                  <SparklesIcon className="w-5 h-5 text-emerald-400" />
+              <div className="flex-1 min-w-0">
+                <h3 className="text-base sm:text-lg lg:text-xl font-bold text-white mb-1 flex items-center gap-2">
+                  <span className="hidden sm:inline">Excellent Progress!</span>
+                  <span className="sm:hidden">Great work!</span>
+                  <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
                 </h3>
-                <p className="text-emerald-200">You've completed {completionRate}% of your tasks. Keep up the great work!</p>
+                <p className="text-emerald-200 text-xs sm:text-sm lg:text-base">
+                  <span className="hidden sm:inline">You've completed {completionRate}% of your tasks. Keep up the great work!</span>
+                  <span className="sm:hidden">{completionRate}% complete. Great job!</span>
+                </p>
               </div>
-              <div className="text-4xl">🎉</div>
+              <div className="text-2xl sm:text-3xl lg:text-4xl flex-shrink-0">🎉</div>
             </div>
           </div>
         </motion.div>

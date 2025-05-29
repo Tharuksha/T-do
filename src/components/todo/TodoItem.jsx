@@ -50,7 +50,7 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
       exit={{ opacity: 0, x: -100, scale: 0.8 }}
       whileHover={{ y: -2, scale: 1.01 }}
       transition={{ duration: 0.3 }}
-      className={`group relative overflow-hidden rounded-2xl ${
+      className={`group relative overflow-hidden rounded-xl sm:rounded-2xl touch-hover ${
         todo.completed 
           ? 'opacity-75' 
           : ''
@@ -61,12 +61,12 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
         todo.priority === 'high' ? 'from-red-600/10 to-pink-600/10' :
         todo.priority === 'medium' ? 'from-amber-600/10 to-orange-600/10' : 
         'from-emerald-600/10 to-teal-600/10'
-      } rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+      } rounded-xl sm:rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
 
       {/* Main card */}
-      <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-300">
+      <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl shadow-xl group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-300 card-mobile">
         {/* Priority indicator bar */}
-        <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl bg-gradient-to-b ${priorityConfig[todo.priority].gradient} ${
+        <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-xl sm:rounded-l-2xl bg-gradient-to-b ${priorityConfig[todo.priority].gradient} ${
           todo.completed ? 'opacity-30' : ''
         }`} />
 
@@ -75,28 +75,28 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-emerald-600/10 rounded-2xl pointer-events-none"
+            className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-emerald-600/10 rounded-xl sm:rounded-2xl pointer-events-none"
             style={{ transformOrigin: 'left' }}
           />
         )}
 
-        <div className="relative p-6">
-          <div className="flex items-start gap-4">
+        <div className="relative p-4 sm:p-6">
+          <div className="flex items-start gap-3 sm:gap-4">
             {/* Completion Button */}
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => onToggle(todo.id)}
-              className={`relative flex-shrink-0 transition-all duration-300 ${
+              className={`relative flex-shrink-0 transition-all duration-300 touch-target ${
                 todo.completed 
                   ? "text-emerald-400" 
                   : "text-white/40 hover:text-emerald-400"
               }`}
             >
               {todo.completed ? (
-                <CheckCircleIconSolid className="w-7 h-7" />
+                <CheckCircleIconSolid className="w-6 h-6 sm:w-7 sm:h-7" />
               ) : (
-                <CheckCircleIcon className="w-7 h-7" />
+                <CheckCircleIcon className="w-6 h-6 sm:w-7 sm:h-7" />
               )}
               {todo.completed && (
                 <motion.div
@@ -109,10 +109,10 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 {/* Title */}
                 <div className="relative">
-                  <h3 className={`text-lg font-semibold transition-all duration-300 ${
+                  <h3 className={`text-base sm:text-lg font-semibold transition-all duration-300 ${
                     todo.completed
                       ? "line-through text-white/40"
                       : "text-white"
@@ -133,37 +133,39 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
                 )}
 
                 {/* Metadata */}
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                   {/* Due Date */}
                   {todo.dueDate && (
-                    <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-medium transition-all backdrop-blur-sm ${
+                    <div className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-all backdrop-blur-sm ${
                       isOverdue && !todo.completed
                         ? 'bg-red-500/20 text-red-300 border border-red-500/30 shadow-lg'
                         : isDueSoon && !todo.completed
                         ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-lg'
                         : 'bg-white/10 text-white/70 border border-white/20'
                     }`}>
-                      <CalendarIcon className="w-4 h-4" />
-                      <span>{format(new Date(todo.dueDate), "MMM d, yyyy")}</span>
+                      <CalendarIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span className="hidden sm:inline">{format(new Date(todo.dueDate), "MMM d, yyyy")}</span>
+                      <span className="sm:hidden">{format(new Date(todo.dueDate), "M/d")}</span>
                       {isOverdue && !todo.completed && (
                         <motion.div
                           animate={{ scale: [1, 1.2, 1] }}
                           transition={{ duration: 1, repeat: Infinity }}
                         >
-                          <ClockIcon className="w-4 h-4 text-red-400" />
+                          <ClockIcon className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
                         </motion.div>
                       )}
                     </div>
                   )}
 
                   {/* Priority */}
-                  <div className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-medium border backdrop-blur-sm ${
+                  <div className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium border backdrop-blur-sm ${
                     priorityConfig[todo.priority].bg
                   } ${priorityConfig[todo.priority].color} ${priorityConfig[todo.priority].border} ${
                     todo.completed ? 'opacity-50' : ''
                   }`}>
-                    <span className="text-base">{priorityConfig[todo.priority].icon}</span>
-                    <span className="capitalize">{todo.priority} Priority</span>
+                    <span className="text-sm sm:text-base">{priorityConfig[todo.priority].icon}</span>
+                    <span className="capitalize hidden sm:inline">{todo.priority} Priority</span>
+                    <span className="capitalize sm:hidden">{todo.priority}</span>
                   </div>
 
                   {/* Time indicators */}
@@ -173,20 +175,22 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
                         <motion.div
                           animate={{ pulse: [1, 1.05, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
-                          className="flex items-center gap-1 px-3 py-1 bg-red-500/20 text-red-300 rounded-xl text-xs font-medium border border-red-500/30"
+                          className="flex items-center gap-1 px-2 sm:px-3 py-1 bg-red-500/20 text-red-300 rounded-lg sm:rounded-xl text-xs font-medium border border-red-500/30"
                         >
                           <ClockIcon className="w-3 h-3" />
-                          Overdue
+                          <span className="hidden sm:inline">Overdue</span>
+                          <span className="sm:hidden">!</span>
                         </motion.div>
                       )}
                       {isDueSoon && !isOverdue && (
                         <motion.div
                           animate={{ pulse: [1, 1.05, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
-                          className="flex items-center gap-1 px-3 py-1 bg-amber-500/20 text-amber-300 rounded-xl text-xs font-medium border border-amber-500/30"
+                          className="flex items-center gap-1 px-2 sm:px-3 py-1 bg-amber-500/20 text-amber-300 rounded-lg sm:rounded-xl text-xs font-medium border border-amber-500/30"
                         >
                           <ClockIcon className="w-3 h-3" />
-                          Due Soon
+                          <span className="hidden sm:inline">Due Soon</span>
+                          <span className="sm:hidden">Soon</span>
                         </motion.div>
                       )}
                     </>

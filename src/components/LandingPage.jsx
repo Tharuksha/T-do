@@ -97,6 +97,33 @@ const LandingPage = ({ onGetStarted }) => {
     { number: "4.9", label: "User Rating" }
   ];
 
+  const routineSteps = [
+    {
+      title: "Morning Planning",
+      description: "Start your day by organizing priorities and setting clear intentions",
+      icon: "🌅",
+      time: "5 min"
+    },
+    {
+      title: "Focus Blocks",
+      description: "Work in distraction-free periods with our built-in focus timer",
+      icon: "⏰",
+      time: "25 min"
+    },
+    {
+      title: "Progress Review",
+      description: "Track accomplishments and adjust plans for continuous improvement",
+      icon: "📊",
+      time: "10 min"
+    },
+    {
+      title: "Evening Reflection",
+      description: "Celebrate wins and prepare tomorrow's priorities for better sleep",
+      icon: "🌙",
+      time: "5 min"
+    }
+  ];
+
   const benefits = [
     {
       icon: "🚀",
@@ -164,28 +191,28 @@ const LandingPage = ({ onGetStarted }) => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative z-50 p-6"
+        className="relative z-50 p-4 sm:p-6 safe-area-top"
       >
-        <div className="container mx-auto flex justify-between items-center max-w-7xl">
+        <div className="container-responsive flex justify-between items-center">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="flex items-center space-x-4"
+            className="flex items-center space-x-2 sm:space-x-4"
           >
             <div className="relative">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25"
+                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25"
               >
-                <SparklesIcon className="w-7 h-7 text-white" />
+                <SparklesIcon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-7 lg:h-7 text-white" />
               </motion.div>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl blur opacity-30"
+                className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl sm:rounded-2xl blur opacity-30"
               />
             </div>
-            <span className="text-3xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <span className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
               Task Flow
             </span>
           </motion.div>
@@ -194,37 +221,40 @@ const LandingPage = ({ onGetStarted }) => {
             whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(59, 130, 246, 0.4)" }}
             whileTap={{ scale: 0.95 }}
             onClick={onGetStarted}
-            className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl font-semibold text-white shadow-xl shadow-blue-500/25 overflow-hidden"
+            className="group relative px-3 py-2 xs:px-4 xs:py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl sm:rounded-2xl font-semibold text-white shadow-xl shadow-blue-500/25 overflow-hidden text-xs xs:text-sm sm:text-base touch-target"
           >
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             />
-            <span className="relative flex items-center gap-2">
-              Get Started <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span className="relative flex items-center gap-1 sm:gap-2">
+              <span className="hidden xs:inline">Get Started</span>
+              <span className="xs:hidden">Start</span>
+              <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </motion.button>
         </div>
       </motion.nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 pt-20 pb-32">
-        <div className="container mx-auto px-6 text-center max-w-7xl">
+      <section className="relative z-10 pt-8 sm:pt-12 lg:pt-20 pb-16 sm:pb-24 lg:pb-32">
+        <div className="container-responsive text-center">
           <motion.div
             style={{ y: textY }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="mb-12"
+            className="mb-8 sm:mb-12"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm text-white/80 mb-8">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-xs sm:text-sm text-white/80 mb-6 sm:mb-8">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                Beautiful & Modern Design
+                <span className="hidden sm:inline">Beautiful & Modern Design</span>
+                <span className="sm:hidden">Modern Design</span>
               </span>
             </motion.div>
 
@@ -232,7 +262,7 @@ const LandingPage = ({ onGetStarted }) => {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-7xl md:text-8xl lg:text-9xl font-black mb-8 leading-none"
+              className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-6 sm:mb-8 leading-none"
             >
               <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
                 Productivity
@@ -247,10 +277,11 @@ const LandingPage = ({ onGetStarted }) => {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.8 }}
-              className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
+              className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-4"
             >
-              Experience elegant task management with beautiful design, 
-              intuitive organization, and seamless workflow automation.
+              <span className="hidden sm:inline">Experience elegant task management with beautiful design, 
+              intuitive organization, and seamless workflow automation.</span>
+              <span className="sm:hidden">Beautiful task management with intuitive design and seamless workflow.</span>
             </motion.p>
           </motion.div>
 
@@ -258,7 +289,7 @@ const LandingPage = ({ onGetStarted }) => {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 1 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center mb-20"
+            className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mb-12 sm:mb-20 px-4"
           >
             
           </motion.div>
@@ -268,7 +299,7 @@ const LandingPage = ({ onGetStarted }) => {
             initial={{ y: 100, opacity: 0, scale: 0.8 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, delay: 1.2 }}
-            className="relative max-w-6xl mx-auto"
+            className="relative max-w-6xl mx-auto px-4 sm:px-0"
           >
             <div className="relative group">
               {/* Glow Effect */}
@@ -281,25 +312,25 @@ const LandingPage = ({ onGetStarted }) => {
                   ]
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
-                className="absolute inset-0 rounded-3xl"
+                className="absolute inset-0 rounded-2xl sm:rounded-3xl"
               />
               
-              <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-                <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl p-8 border border-white/10">
+              <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl">
+                <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-white/10">
                   {/* Header */}
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-4">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <div className="flex items-center justify-between mb-4 sm:mb-6 lg:mb-8">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+                      <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="text-white/60 text-sm">Task Flow </div>
+                    <div className="text-white/60 text-xs sm:text-sm">Task Flow</div>
                   </div>
 
                   {/* Dashboard Preview */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2 space-y-4">
-                      <h3 className="text-2xl font-bold text-white mb-6">Today's Focus</h3>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <div className="lg:col-span-2 space-y-3 sm:space-y-4">
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-4 sm:mb-6">Today's Focus</h3>
                       {[
                         { text: "Design system updates", completed: true, priority: "high" },
                         { text: "Client presentation prep", completed: false, priority: "high" },
@@ -311,7 +342,7 @@ const LandingPage = ({ onGetStarted }) => {
                           initial={{ x: -50, opacity: 0 }}
                           animate={{ x: 0, opacity: 1 }}
                           transition={{ delay: 1.5 + index * 0.2 }}
-                          className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 ${
+                          className={`flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl border transition-all duration-300 ${
                             task.completed 
                               ? 'bg-emerald-500/15 border-emerald-500/30' 
                               : 'bg-white/8 border-white/20 hover:bg-white/12'
@@ -319,7 +350,7 @@ const LandingPage = ({ onGetStarted }) => {
                         >
                           <motion.div
                             whileHover={{ scale: 1.1 }}
-                            className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center ${
+                            className={`w-4 h-4 sm:w-6 sm:h-6 rounded-md sm:rounded-lg border-2 flex items-center justify-center ${
                               task.completed 
                                 ? 'bg-emerald-500 border-emerald-500' 
                                 : 'border-white/40 hover:border-blue-400'
@@ -369,53 +400,124 @@ const LandingPage = ({ onGetStarted }) => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="relative z-10 py-20">
-        <div className="container mx-auto px-6 max-w-7xl">
+      {/* Transform Your Daily Routine Section */}
+      <section className="relative z-10 py-16 sm:py-24 lg:py-32">
+        <div className="container-responsive">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
-            {stats.map((stat, index) => (
+            <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-black mb-4 sm:mb-6">
+              <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Transform Your
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                Daily Routine
+              </span>
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto px-4">
+              <span className="hidden sm:inline">Build better habits and create a sustainable productivity system that works for you</span>
+              <span className="sm:hidden">Build better habits with a sustainable productivity system</span>
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {routineSteps.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center group"
+                transition={{ delay: index * 0.15 }}
+                whileHover={{ scale: 1.05, y: -10 }}
+                className="group relative touch-hover"
               >
-                <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 rounded-2xl sm:rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-500 text-center card-mobile">
                   <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-2xl blur group-hover:blur-sm transition-all duration-300"
-                  />
-                  <div className="relative bg-white/8 backdrop-blur-sm border border-white/20 rounded-2xl p-6 group-hover:bg-white/12 transition-all duration-300">
-                    <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-2">
-                      {stat.number}
-                    </div>
-                    <div className="text-gray-400 font-medium">{stat.label}</div>
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-blue-500/20 to-indigo-600/20 rounded-xl sm:rounded-2xl flex items-center justify-center text-2xl sm:text-4xl backdrop-blur-sm border border-white/20"
+                  >
+                    {step.icon}
+                  </motion.div>
+                  
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3 group-hover:text-blue-300 transition-colors">
+                    {step.title}
+                  </h3>
+                  
+                  <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-3 sm:mb-4 group-hover:text-gray-200 transition-colors">
+                    {step.description}
+                  </p>
+                  
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-xs sm:text-sm text-blue-300 font-medium">
+                    <ClockIcon className="w-3 h-3" />
+                    {step.time}
                   </div>
                 </div>
               </motion.div>
             ))}
+          </div>
+
+          {/* Productivity Tips */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+            className="mt-12 sm:mt-16 lg:mt-20"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="group relative touch-hover"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-teal-600/20 rounded-xl sm:rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="relative bg-white/8 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 group-hover:bg-white/12 transition-all duration-500 text-center card-mobile">
+                  <div className="text-2xl sm:text-3xl mb-3 sm:mb-4">🎯</div>
+                  <h4 className="text-base sm:text-lg font-semibold text-white mb-2">80/20 Rule</h4>
+                  <p className="text-gray-300 text-xs sm:text-sm">Focus on the 20% of tasks that deliver 80% of your results</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="group relative touch-hover"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-600/20 to-orange-600/20 rounded-xl sm:rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="relative bg-white/8 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 group-hover:bg-white/12 transition-all duration-500 text-center card-mobile">
+                  <div className="text-2xl sm:text-3xl mb-3 sm:mb-4">⚡</div>
+                  <h4 className="text-base sm:text-lg font-semibold text-white mb-2">2-Minute Rule</h4>
+                  <p className="text-gray-300 text-xs sm:text-sm">If it takes less than 2 minutes, do it now instead of adding to your list</p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="group relative touch-hover sm:col-span-2 lg:col-span-1"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-xl sm:rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="relative bg-white/8 backdrop-blur-xl border border-white/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 group-hover:bg-white/12 transition-all duration-500 text-center card-mobile">
+                  <div className="text-2xl sm:text-3xl mb-3 sm:mb-4">🔄</div>
+                  <h4 className="text-base sm:text-lg font-semibold text-white mb-2">Weekly Review</h4>
+                  <p className="text-gray-300 text-xs sm:text-sm">Reflect on progress and adjust your system for continuous improvement</p>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="relative z-10 py-32">
-        <div className="container mx-auto px-6 max-w-7xl">
+      <section className="relative z-10 py-16 sm:py-24 lg:py-32">
+        <div className="container-responsive">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
             <motion.h2 
               initial={{ opacity: 0, y: 30 }}
