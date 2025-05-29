@@ -2,150 +2,231 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import {
   ChevronUpIcon,
-  InformationCircleIcon,
   HeartIcon,
+  SparklesIcon,
+  ArrowTopRightOnSquareIcon,
 } from "@heroicons/react/24/outline";
 
 const Footer = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
-  // Auto-hide footer after page load
+  // Update time every second
   useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // Show footer initially for 2 seconds, then hide
+  useEffect(() => {
+    setIsVisible(true);
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3000); // Hide after 3 seconds
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
 
+  const links = [
+    { label: "Privacy", href: "#privacy" },
+    { label: "Terms", href: "#terms" },
+    { label: "Support", href: "#support" },
+    { label: "Docs", href: "#docs" },
+  ];
+
   return (
     <>
-      {/* Toggle Button */}
+      {/* Elegant Toggle Button */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
-        className="fixed bottom-4 right-4 z-50 md:right-8"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
+        className="fixed bottom-6 right-6 z-50"
       >
         <motion.button
           onClick={() => setIsVisible(!isVisible)}
-          onHoverStart={() => setIsHovered(true)}
-          onHoverEnd={() => setIsHovered(false)}
-          className="relative bg-white/90 backdrop-blur-md shadow-lg rounded-full px-4 py-2.5 hover:bg-white/95 transition-all duration-300 group border border-gray-100 hover:shadow-xl"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="group relative"
         >
-          {/* Background gradient */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/10 via-transparent to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-          <div className="flex items-center gap-2 relative">
+          {/* Subtle glow */}
+          <motion.div
+            className="absolute inset-0 bg-blue-500/20 rounded-full blur-lg opacity-0 group-hover:opacity-100"
+            transition={{ duration: 0.3 }}
+          />
+          
+          <div className="relative w-12 h-12 bg-white/10 backdrop-blur-md rounded-full border border-white/20 shadow-lg flex items-center justify-center">
             <motion.div
-              animate={{
-                rotate: isVisible ? 0 : 180,
-                y: isHovered ? -2 : 0,
-              }}
-              transition={{
-                duration: 0.3,
-                type: "spring",
-                stiffness: 200,
-              }}
-              className="bg-primary/10 rounded-full p-1"
+              animate={{ rotate: isVisible ? 180 : 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
-              <ChevronUpIcon className="w-4 h-4 text-primary" />
+              <ChevronUpIcon className="w-5 h-5 text-gray-300" />
             </motion.div>
-
-            <motion.span
-              initial={{ opacity: 0, width: 0 }}
-              animate={{
-                opacity: isHovered ? 1 : 0.9,
-                width: "auto",
-              }}
-              transition={{ duration: 0.3 }}
-              className="text-sm font-medium text-gray-600 whitespace-nowrap flex items-center gap-1.5"
-            >
-              <InformationCircleIcon className="w-4 h-4 text-primary" />
-              <span className="hidden sm:inline">
-                {isVisible ? "Hide" : "Show"} Credits
-              </span>
-              <HeartIcon className="w-4 h-4 text-red-500 animate-pulse" />
-            </motion.span>
           </div>
-
-          {/* Animated glow effect */}
-          <motion.div
-            className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-            style={{ zIndex: -1 }}
-          />
-
-          {/* Animated underline */}
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          />
         </motion.button>
       </motion.div>
 
-      {/* Footer Content */}
-      <AnimatePresence mode="wait">
+      {/* Premium Footer */}
+      <AnimatePresence>
         {isVisible && (
           <motion.footer
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="bg-white/80 backdrop-blur-md border-t border-gray-100 py-8 px-4 fixed bottom-0 w-full shadow-[0_-5px_25px_-5px_rgba(0,0,0,0.1)]"
+            initial={{ opacity: 0, y: "100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{
+              duration: 0.4,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
+            className="fixed bottom-0 left-0 right-0 z-40"
           >
-            <div className="max-w-7xl mx-auto">
+            {/* Premium Glass Background */}
+            <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-xl border-t border-white/20" />
+            
+            <div className="relative z-10 max-w-6xl mx-auto px-8 py-6">
+              {/* Main Content */}
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+                
+                {/* Brand Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="flex items-center gap-4"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 180 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25"
+                  >
+                    <SparklesIcon className="w-5 h-5 text-white" />
+                  </motion.div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Task Flow Pro</h3>
+                    <p className="text-sm text-gray-400">Premium Task Management</p>
+                  </div>
+                </motion.div>
+
+                {/* Navigation Links */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="flex items-center gap-8"
+                >
+                  {links.map((link, index) => (
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + index * 0.1 }}
+                      whileHover={{ y: -2 }}
+                      className="text-sm text-gray-300 hover:text-blue-400 transition-colors font-medium relative group"
+                    >
+                      {link.label}
+                      <motion.div
+                        className="absolute -bottom-1 left-0 right-0 h-px bg-blue-400 origin-left"
+                        initial={{ scaleX: 0 }}
+                        whileHover={{ scaleX: 1 }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    </motion.a>
+                  ))}
+                </motion.div>
+
+                {/* Status & Time */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="flex items-center gap-4 text-sm"
+                >
+                  {/* Live Status */}
+                  <div className="flex items-center gap-2">
+                    <motion.div
+                      className="w-2 h-2 rounded-full bg-emerald-500"
+                      animate={{ opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    <span className="text-gray-300 font-medium">Live</span>
+                  </div>
+
+                  {/* Time */}
+                  <div className="text-gray-400">
+                    {currentTime.toLocaleTimeString([], { 
+                      hour: '2-digit', 
+                      minute: '2-digit' 
+                    })}
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Bottom Section */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="flex justify-center items-center relative"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="border-t border-white/20 mt-6 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4"
               >
-                <div className="absolute inset-0 -z-10">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-secondary/5 rounded-lg blur-xl" />
+                {/* Copyright */}
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <span>&copy; 2024 Task Flow Pro</span>
+                  <span className="text-gray-600">•</span>
+                  <span>All rights reserved</span>
                 </div>
 
-                <p className="text-gray-600 text-sm font-medium py-1 px-4 rounded-full backdrop-blur-sm">
-                  Made with{" "}
-                  <motion.span
-                    animate={{
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                    }}
-                    className="text-red-500 inline-block cursor-default"
+                {/* Made with love */}
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <span>Made with</span>
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    ❤️
-                  </motion.span>{" "}
-                  by{" "}
+                    <HeartIcon className="w-3 h-3 text-rose-500 fill-current" />
+                  </motion.div>
+                  <span>by our team</span>
                   <motion.a
-                    href="https://github.com/tharuksha"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:text-secondary transition-colors duration-300 relative group"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    href="#about"
+                    whileHover={{ scale: 1.1 }}
+                    className="ml-2 text-gray-500 hover:text-blue-400 transition-colors"
                   >
-                    Tharuksha Wickramarachchi
-                    <motion.span
-                      className="absolute -bottom-0.5 left-0 w-full h-0.5 bg-secondary origin-left"
-                      initial={{ scaleX: 0 }}
-                      whileHover={{ scaleX: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
+                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                   </motion.a>
-                </p>
+                </div>
               </motion.div>
             </div>
+
+            {/* Premium Progress Bar */}
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.8, duration: 2, ease: "easeOut" }}
+            />
           </motion.footer>
+        )}
+      </AnimatePresence>
+
+      {/* Keyboard shortcut hint */}
+      <AnimatePresence>
+        {!isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ delay: 3 }}
+            className="fixed bottom-20 right-6 z-30"
+          >
+            <motion.div
+              className="bg-slate-900/90 backdrop-blur-sm border border-white/20 rounded-lg px-3 py-2 text-xs text-gray-300 shadow-lg"
+              whileHover={{ scale: 1.05 }}
+            >
+              Press <kbd className="px-1.5 py-0.5 bg-white/20 rounded text-xs font-mono">F</kbd> for footer
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
