@@ -4,47 +4,125 @@ import {
   ChevronUpIcon,
   HeartIcon,
   SparklesIcon,
-  ArrowTopRightOnSquareIcon,
+  ArrowDownTrayIcon,
+  CommandLineIcon,
+  DocumentDuplicateIcon,
+  ShareIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline";
+import useTodoStore from "../store/todoStore";
 
 const Footer = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
+  const [showExportMenu, setShowExportMenu] = useState(false);
+  
+  const { todos } = useTodoStore();
 
-  // Update time every second
+  // Calculate basic stats
+  const totalTasks = todos.length;
+  const completedTasks = todos.filter(todo => todo.completed).length;
+  const activeTasks = totalTasks - completedTasks;
+
+  // Update time every minute for minimalistic approach
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 60000);
 
     return () => clearInterval(timer);
   }, []);
 
-  // Show footer initially for 2 seconds, then hide
+  // Keyboard shortcuts
   useEffect(() => {
-    setIsVisible(true);
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 2000);
+    const handleKeyPress = (e) => {
+      // Check if user is typing in any form element
+      const activeElement = document.activeElement;
+      const isTyping = activeElement && (
+        activeElement.tagName === 'INPUT' ||
+        activeElement.tagName === 'TEXTAREA' ||
+        activeElement.tagName === 'SELECT' ||
+        activeElement.isContentEditable ||
+        activeElement.getAttribute('role') === 'textbox'
+      );
 
-    return () => clearTimeout(timer);
-  }, []);
+      // Disable shortcuts when user is typing in form fields
+      if (isTyping) {
+        return;
+      }
 
-  const links = [
-    { label: "Privacy", href: "#privacy" },
-    { label: "Terms", href: "#terms" },
-    { label: "Support", href: "#support" },
-    { label: "Docs", href: "#docs" },
-  ];
+      if (e.key.toLowerCase() === 'f' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        setIsVisible(!isVisible);
+      }
+      if (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        setShowKeyboardShortcuts(true);
+      }
+      if (e.key === 'Escape') {
+        setShowKeyboardShortcuts(false);
+        setShowExportMenu(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isVisible]);
+
+  // Export functions
+  const exportAsJSON = () => {
+    const data = {
+      todos,
+      exportDate: new Date().toISOString(),
+      stats: { totalTasks, completedTasks, activeTasks }
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `tasks-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setShowExportMenu(false);
+  };
+
+  const exportAsCSV = () => {
+    const headers = ['Task', 'Status', 'Priority', 'Created'];
+    const csvContent = [
+      headers.join(','),
+      ...todos.map(todo => [
+        `"${todo.text.replace(/"/g, '""')}"`,
+        todo.completed ? 'Completed' : 'Active',
+        todo.priority || 'Normal',
+        todo.createdAt || new Date().toISOString()
+      ].join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `tasks-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    setShowExportMenu(false);
+  };
+
+  const copyToClipboard = () => {
+    const text = todos.map(todo => `${todo.completed ? '✓' : '○'} ${todo.text}`).join('\n');
+    navigator.clipboard.writeText(text);
+    setShowExportMenu(false);
+  };
 
   return (
     <>
-      {/* Elegant Toggle Button */}
+      {/* Minimalistic Toggle Button */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
-        className="fixed bottom-6 right-6 z-50"
+        transition={{ delay: 1, duration: 0.4 }}
+        className="fixed bottom-8 right-8 z-50"
       >
         <motion.button
           onClick={() => setIsVisible(!isVisible)}
@@ -52,179 +130,243 @@ const Footer = () => {
           whileTap={{ scale: 0.95 }}
           className="group relative"
         >
-          {/* Subtle glow */}
-          <motion.div
-            className="absolute inset-0 bg-blue-500/20 rounded-full blur-lg opacity-0 group-hover:opacity-100"
-            transition={{ duration: 0.3 }}
-          />
-          
-          <div className="relative w-12 h-12 bg-white/10 backdrop-blur-md rounded-full border border-white/20 shadow-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 shadow-2xl flex items-center justify-center">
             <motion.div
               animate={{ rotate: isVisible ? 180 : 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: 0.3 }}
+              className="text-white/80"
             >
-              <ChevronUpIcon className="w-5 h-5 text-gray-300" />
+              <ChevronUpIcon className="w-5 h-5" />
             </motion.div>
+            
+            {/* Subtle task counter */}
+            {activeTasks > 0 && (
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center text-[10px] font-semibold text-white"
+              >
+                {activeTasks}
+              </motion.div>
+            )}
           </div>
         </motion.button>
       </motion.div>
 
-      {/* Premium Footer */}
+      {/* Minimalistic Footer */}
       <AnimatePresence>
         {isVisible && (
           <motion.footer
             initial={{ opacity: 0, y: "100%" }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "100%" }}
-            transition={{
-              duration: 0.4,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
             className="fixed bottom-0 left-0 right-0 z-40"
           >
-            {/* Premium Glass Background */}
-            <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-xl border-t border-white/20" />
+            {/* Clean backdrop */}
+            <div className="absolute inset-0 bg-slate-900/90 backdrop-blur-xl" />
+            
+            {/* Subtle top border */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             
             <div className="relative z-10 max-w-6xl mx-auto px-8 py-6">
-              {/* Main Content */}
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+              
+              {/* Main Content Row */}
+              <div className="flex items-center justify-between">
                 
-                {/* Brand Section */}
+                {/* Brand */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="flex items-center gap-4"
+                  className="flex items-center gap-3"
                 >
-                  <motion.div
-                    whileHover={{ rotate: 180 }}
-                    transition={{ duration: 0.6 }}
-                    className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/25"
-                  >
-                    <SparklesIcon className="w-5 h-5 text-white" />
-                  </motion.div>
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                    <SparklesIcon className="w-4 h-4 text-white" />
+                  </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">Task Flow Pro</h3>
-                    <p className="text-sm text-gray-400">Premium Task Management</p>
+                    <h3 className="text-sm font-semibold text-white">Task Flow</h3>
+                    
                   </div>
                 </motion.div>
 
-                {/* Navigation Links */}
+                {/* Simple Stats */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="flex items-center gap-8"
+                  className="hidden md:flex items-center gap-6 text-sm text-white/80"
                 >
-                  {links.map((link, index) => (
-                    <motion.a
-                      key={link.label}
-                      href={link.href}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 + index * 0.1 }}
-                      whileHover={{ y: -2 }}
-                      className="text-sm text-gray-300 hover:text-blue-400 transition-colors font-medium relative group"
-                    >
-                      {link.label}
-                      <motion.div
-                        className="absolute -bottom-1 left-0 right-0 h-px bg-blue-400 origin-left"
-                        initial={{ scaleX: 0 }}
-                        whileHover={{ scaleX: 1 }}
-                        transition={{ duration: 0.2 }}
-                      />
-                    </motion.a>
-                  ))}
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">{totalTasks}</span>
+                    <span className="text-white/60">Tasks</span>
+                  </div>
+                  <div className="w-px h-4 bg-white/20" />
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">{completedTasks}</span>
+                    <span className="text-white/60">Done</span>
+                  </div>
+                  {totalTasks > 0 && (
+                    <>
+                      <div className="w-px h-4 bg-white/20" />
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{Math.round((completedTasks / totalTasks) * 100)}%</span>
+                        <span className="text-white/60">Complete</span>
+                      </div>
+                    </>
+                  )}
                 </motion.div>
 
-                {/* Status & Time */}
+                {/* Action Buttons */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="flex items-center gap-4 text-sm"
+                  className="flex items-center gap-3"
                 >
-                  {/* Live Status */}
-                  <div className="flex items-center gap-2">
-                    <motion.div
-                      className="w-2 h-2 rounded-full bg-emerald-500"
-                      animate={{ opacity: [0.5, 1, 0.5] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <span className="text-gray-300 font-medium">Live</span>
-                  </div>
-
-                  {/* Time */}
-                  <div className="text-gray-400">
-                    {currentTime.toLocaleTimeString([], { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
-                    })}
-                  </div>
+                  <motion.button
+                    onClick={() => setShowExportMenu(!showExportMenu)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-colors"
+                  >
+                    <ArrowDownTrayIcon className="w-4 h-4 text-white/80" />
+                  </motion.button>
+                  
+                  <motion.button
+                    onClick={() => setShowKeyboardShortcuts(true)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center transition-colors"
+                  >
+                    <CommandLineIcon className="w-4 h-4 text-white/80" />
+                  </motion.button>
                 </motion.div>
               </div>
 
-              {/* Bottom Section */}
+              {/* Bottom Row */}
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="border-t border-white/20 mt-6 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4"
+                className="flex items-center justify-between mt-4 pt-4 border-t border-white/10"
               >
-                {/* Copyright */}
-                <div className="flex items-center gap-2 text-xs text-gray-400">
-                  <span>&copy; 2024 Task Flow Pro</span>
-                  <span className="text-gray-600">•</span>
-                  <span>All rights reserved</span>
+                {/* Time */}
+                <div className="flex items-center gap-2 text-xs text-white/60">
+                  <ClockIcon className="w-3 h-3" />
+                  <span className="font-mono">
+                    {currentTime.toLocaleTimeString([], { 
+                      hour: '2-digit', 
+                      minute: '2-digit'
+                    })}
+                  </span>
                 </div>
 
-                {/* Made with love */}
-                <div className="flex items-center gap-2 text-xs text-gray-400">
+                {/* Copyright */}
+                <div className="flex items-center gap-2 text-xs text-white/60">
                   <span>Made with</span>
                   <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   >
-                    <HeartIcon className="w-3 h-3 text-rose-500 fill-current" />
+                    <HeartIcon className="w-3 h-3 text-rose-400 fill-current" />
                   </motion.div>
-                  <span>by our team</span>
-                  <motion.a
-                    href="#about"
-                    whileHover={{ scale: 1.1 }}
-                    className="ml-2 text-gray-500 hover:text-blue-400 transition-colors"
-                  >
-                    <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                  </motion.a>
+                  <span>© 2025</span>
                 </div>
               </motion.div>
             </div>
-
-            {/* Premium Progress Bar */}
-            <motion.div
-              className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.8, duration: 2, ease: "easeOut" }}
-            />
           </motion.footer>
         )}
       </AnimatePresence>
 
-      {/* Keyboard shortcut hint */}
+      {/* Export Menu */}
       <AnimatePresence>
-        {!isVisible && (
+        {showExportMenu && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ delay: 3 }}
-            className="fixed bottom-20 right-6 z-30"
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            className="fixed bottom-24 right-8 z-50"
+          >
+            <div className="bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-xl p-3 shadow-2xl min-w-[160px]">
+              <div className="space-y-1">
+                <motion.button
+                  whileHover={{ x: 2 }}
+                  onClick={exportAsJSON}
+                  className="w-full flex items-center gap-2 p-2 text-left text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                >
+                  <DocumentDuplicateIcon className="w-4 h-4" />
+                  JSON
+                </motion.button>
+                
+                <motion.button
+                  whileHover={{ x: 2 }}
+                  onClick={exportAsCSV}
+                  className="w-full flex items-center gap-2 p-2 text-left text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                >
+                  <ArrowDownTrayIcon className="w-4 h-4" />
+                  CSV
+                </motion.button>
+                
+                <motion.button
+                  whileHover={{ x: 2 }}
+                  onClick={copyToClipboard}
+                  className="w-full flex items-center gap-2 p-2 text-left text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                >
+                  <ShareIcon className="w-4 h-4" />
+                  Copy
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Keyboard Shortcuts Modal */}
+      <AnimatePresence>
+        {showKeyboardShortcuts && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowKeyboardShortcuts(false)}
           >
             <motion.div
-              className="bg-slate-900/90 backdrop-blur-sm border border-white/20 rounded-lg px-3 py-2 text-xs text-gray-300 shadow-lg"
-              whileHover={{ scale: 1.05 }}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-sm w-full shadow-2xl"
             >
-              Press <kbd className="px-1.5 py-0.5 bg-white/20 rounded text-xs font-mono">F</kbd> for footer
+              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <CommandLineIcon className="w-5 h-5" />
+                Shortcuts
+              </h2>
+              
+              <div className="space-y-2 text-sm">
+                {[
+                  { key: "F", desc: "Toggle footer" },
+                  { key: "Ctrl + K", desc: "Show shortcuts" },
+                  { key: "Escape", desc: "Close dialogs" }
+                ].map((shortcut, index) => (
+                  <div key={index} className="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                    <span className="text-white/80">{shortcut.desc}</span>
+                    <kbd className="px-2 py-1 bg-white/20 text-white text-xs font-mono rounded border border-white/30">
+                      {shortcut.key}
+                    </kbd>
+                  </div>
+                ))}
+              </div>
+              
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowKeyboardShortcuts(false)}
+                className="w-full mt-4 p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition-colors"
+              >
+                Close
+              </motion.button>
             </motion.div>
           </motion.div>
         )}

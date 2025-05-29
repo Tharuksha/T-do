@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "framer-motion";
-import Header from "./Header";
 import TodoForm from "./todo/TodoForm";
 import TodoItem from "./todo/TodoItem";
 import TodoFilters from "./TodoFilters";
@@ -117,11 +116,8 @@ function TodoApp({ onBackToLanding }) {
             </motion.div>
           )}
 
-          {/* Enhanced Header */}
-          <Header />
-
           {/* Premium Main Layout Grid */}
-          <div className="mt-16">
+          <div className="mt-8">
             <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
               
               {/* Left Column - Enhanced Stats Dashboard */}

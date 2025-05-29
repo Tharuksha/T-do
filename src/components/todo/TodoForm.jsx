@@ -110,145 +110,179 @@ const TodoForm = ({ onAdd }) => {
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
             onSubmit={handleSubmit}
-            className="relative"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setShowForm(false);
+            }}
           >
-            {/* Background glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-3xl blur-xl"></div>
-            
-            {/* Form container */}
-            <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
-              {/* Header */}
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-4">
-                  <motion.div
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                    className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25"
-                  >
-                    <PlusIcon className="w-7 h-7 text-white" />
-                  </motion.div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-1">Create New Task</h3>
-                    <p className="text-blue-200">Add details to organize your work efficiently</p>
-                  </div>
-                </div>
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.1, rotate: 90 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setShowForm(false)}
-                  className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-300"
-                >
-                  <XMarkIcon className="w-5 h-5" />
-                </motion.button>
-              </div>
-
-              <div className="space-y-6">
-                {/* Task Title */}
-                <div className="space-y-3">
-                  <label className="block text-sm font-semibold text-white/90">
-                    Task Title *
-                  </label>
-                  <motion.input
-                    whileFocus={{ scale: 1.02 }}
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="What needs to be accomplished?"
-                    className="w-full px-4 py-4 bg-white/8 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500/50 text-lg font-medium transition-all duration-300"
-                    autoFocus
-                  />
-                </div>
-
-                {/* Description */}
-                <div className="space-y-3">
-                  <label className="block text-sm font-semibold text-white/90">
-                    Description (Optional)
-                  </label>
-                  <motion.textarea
-                    whileFocus={{ scale: 1.02 }}
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Add more details about this task..."
-                    rows="3"
-                    className="w-full px-4 py-4 bg-white/8 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500/50 resize-none transition-all duration-300"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Due Date */}
-                  <div className="space-y-3">
-                    <label className="block text-sm font-semibold text-white/90">
-                      <CalendarIcon className="w-4 h-4 inline mr-2" />
-                      Due Date
-                    </label>
-                    <motion.input
-                      whileFocus={{ scale: 1.02 }}
-                      type="date"
-                      value={dueDate}
-                      onChange={(e) => setDueDate(e.target.value)}
-                      className="w-full px-4 py-4 bg-white/8 backdrop-blur-sm border border-white/20 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500/50 transition-all duration-300 [color-scheme:dark]"
-                      min={new Date().toISOString().split('T')[0]}
-                    />
-                  </div>
-
-                  {/* Priority */}
-                  <div className="space-y-3">
-                    <label className="block text-sm font-semibold text-white/90">
-                      <FlagIcon className="w-4 h-4 inline mr-2" />
-                      Priority Level
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {priorities.map((p) => (
-                        <motion.button
-                          key={p.value}
-                          type="button"
-                          whileHover={{ scale: 1.05, y: -2 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setPriority(p.value)}
-                          className={`p-3 rounded-xl border-2 transition-all duration-300 text-xs font-semibold ${
-                            priority === p.value
-                              ? `bg-gradient-to-r ${p.gradient} text-white border-white/30 shadow-lg`
-                              : 'bg-white/8 text-white/70 border-white/20 hover:border-white/40 hover:bg-white/12'
-                          }`}
-                        >
-                          <div className="text-center">
-                            <div className="text-lg mb-1">{p.icon}</div>
-                            <div className="text-xs">{p.value.charAt(0).toUpperCase() + p.value.slice(1)}</div>
-                          </div>
-                        </motion.button>
-                      ))}
+            {/* Modal Container */}
+            <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+              {/* Background glow */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-3xl blur-xl"></div>
+              
+              {/* Form container */}
+              <div className="relative bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <motion.div
+                      animate={{ rotate: [0, 5, -5, 0] }}
+                      transition={{ duration: 4, repeat: Infinity }}
+                      className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25"
+                    >
+                      <PlusIcon className="w-7 h-7 text-white" />
+                    </motion.div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">Create New Task</h3>
+                      <p className="text-blue-200">Add details to organize your work efficiently</p>
                     </div>
                   </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-4 pt-6 border-t border-white/20">
-                  <motion.button
-                    type="submit"
-                    whileHover={{ scale: 1.02, y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                    disabled={!title.trim()}
-                    className="flex-1 relative group overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-4 px-6 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-xl shadow-blue-500/25 transition-all duration-300"
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    />
-                    <span className="relative flex items-center justify-center gap-2">
-                      <PlusIcon className="w-5 h-5" />
-                      Create Task
-                    </span>
-                  </motion.button>
-                  
                   <motion.button
                     type="button"
-                    whileHover={{ scale: 1.02, y: -1 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={() => setShowForm(false)}
-                    className="px-6 py-4 rounded-2xl font-semibold text-white/80 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 transition-all duration-300"
+                    className="w-12 h-12 rounded-2xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white border border-white/20 hover:border-white/40 transition-all duration-300"
                   >
-                    Cancel
+                    <XMarkIcon className="w-6 h-6" />
                   </motion.button>
+                </div>
+
+                <div className="space-y-8">
+                  {/* Task Title */}
+                  <div className="space-y-3">
+                    <label className="block text-sm font-semibold text-white/90">
+                      Task Title *
+                    </label>
+                    <motion.input
+                      whileFocus={{ scale: 1.01 }}
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="What needs to be accomplished?"
+                      className="w-full px-6 py-4 bg-slate-800/80 backdrop-blur-sm border-2 border-white/20 rounded-2xl text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500/50 text-lg font-medium transition-all duration-300 hover:border-white/30"
+                      style={{ 
+                        color: '#ffffff',
+                        backgroundColor: 'rgba(30, 41, 59, 0.8)',
+                        WebkitTextFillColor: '#ffffff'
+                      }}
+                      autoFocus
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div className="space-y-3">
+                    <label className="block text-sm font-semibold text-white/90">
+                      Description (Optional)
+                    </label>
+                    <motion.textarea
+                      whileFocus={{ scale: 1.01 }}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Add more details about this task..."
+                      rows="4"
+                      className="w-full px-6 py-4 bg-slate-800/80 backdrop-blur-sm border-2 border-white/20 rounded-2xl text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500/50 resize-none transition-all duration-300 hover:border-white/30"
+                      style={{ 
+                        color: '#ffffff',
+                        backgroundColor: 'rgba(30, 41, 59, 0.8)',
+                        WebkitTextFillColor: '#ffffff'
+                      }}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Due Date */}
+                    <div className="space-y-3">
+                      <label className="block text-sm font-semibold text-white/90 flex items-center gap-2">
+                        <CalendarIcon className="w-4 h-4" />
+                        Due Date
+                      </label>
+                      <div className="relative">
+                        <motion.input
+                          whileFocus={{ scale: 1.01 }}
+                          type="date"
+                          value={dueDate}
+                          onChange={(e) => setDueDate(e.target.value)}
+                          className="w-full px-6 py-4 bg-white/8 backdrop-blur-sm border-2 border-white/20 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500/50 transition-all duration-300 hover:border-white/30 [color-scheme:dark] file:bg-transparent file:border-0 file:text-white"
+                          min={new Date().toISOString().split('T')[0]}
+                          style={{
+                            colorScheme: 'dark',
+                          }}
+                        />
+                        {/* Custom date icon overlay */}
+                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                          <CalendarIcon className="w-5 h-5 text-white/50" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Priority */}
+                    <div className="space-y-3">
+                      <label className="block text-sm font-semibold text-white/90 flex items-center gap-2">
+                        <FlagIcon className="w-4 h-4" />
+                        Priority Level
+                      </label>
+                      <div className="grid grid-cols-3 gap-3">
+                        {priorities.map((p) => (
+                          <motion.button
+                            key={p.value}
+                            type="button"
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setPriority(p.value)}
+                            className={`relative p-4 rounded-2xl border-2 transition-all duration-300 font-semibold overflow-hidden ${
+                              priority === p.value
+                                ? `bg-gradient-to-r ${p.gradient} text-white border-white/30 shadow-lg shadow-${p.value === 'low' ? 'emerald' : p.value === 'medium' ? 'amber' : 'red'}-500/25`
+                                : 'bg-white/8 text-white/70 border-white/20 hover:border-white/40 hover:bg-white/15'
+                            }`}
+                          >
+                            {priority === p.value && (
+                              <motion.div
+                                layoutId="priority-selector"
+                                className="absolute inset-0 bg-white/10 rounded-2xl"
+                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                              />
+                            )}
+                            <div className="relative text-center">
+                              <div className="text-2xl mb-2">{p.icon}</div>
+                              <div className="text-sm font-bold">
+                                {p.value.charAt(0).toUpperCase() + p.value.slice(1)}
+                              </div>
+                            </div>
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/20">
+                    <motion.button
+                      type="submit"
+                      whileHover={{ scale: 1.02, y: -1 }}
+                      whileTap={{ scale: 0.98 }}
+                      disabled={!title.trim()}
+                      className="flex-1 relative group overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-4 px-8 rounded-2xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-xl shadow-blue-500/25 transition-all duration-300"
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      />
+                      <span className="relative flex items-center justify-center gap-3">
+                        <PlusIcon className="w-5 h-5" />
+                        Create Task
+                      </span>
+                    </motion.button>
+                    
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.02, y: -1 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setShowForm(false)}
+                      className="px-8 py-4 rounded-2xl font-semibold text-white/80 bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-white/40 transition-all duration-300"
+                    >
+                      Cancel
+                    </motion.button>
+                  </div>
                 </div>
               </div>
             </div>

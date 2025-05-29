@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { CheckIcon, StarIcon, SparklesIcon, ClockIcon, ChartBarIcon, LockClosedIcon, ArrowRightIcon, PlayIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, SparklesIcon, ClockIcon, ChartBarIcon, LockClosedIcon, ArrowRightIcon, PlayIcon } from "@heroicons/react/24/outline";
 import { CheckIcon as CheckIconSolid } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 
@@ -63,33 +63,30 @@ const LandingPage = ({ onGetStarted }) => {
     }
   ];
 
-  const testimonials = [
+  const workflowSteps = [
     {
-      name: "Sarah Chen",
-      role: "VP of Product",
-      company: "TechFlow",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face",
-      content: "Task Flow has streamlined our team's productivity. The clean interface is exactly what we needed.",
-      rating: 5,
-      highlight: "Increased productivity by 40%"
+      step: "01",
+      title: "Create & Organize",
+      description: "Add tasks effortlessly with smart categorization, priority levels, and due dates. Our intuitive interface makes task creation a breeze.",
+      icon: SparklesIcon,
+      gradient: "from-blue-500 to-indigo-600",
+      features: ["Smart categorization", "Priority levels", "Due date tracking"]
     },
     {
-      name: "Michael Rodriguez",
-      role: "Lead Engineer",
-      company: "DataSync",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      content: "The most elegant task manager I've ever used. Simple yet powerful.",
-      rating: 5,
-      highlight: "Perfect workflow integration"
+      step: "02", 
+      title: "Track Progress",
+      description: "Monitor your productivity with visual progress indicators, completion rates, and insightful analytics to stay motivated.",
+      icon: ChartBarIcon,
+      gradient: "from-emerald-500 to-teal-600",
+      features: ["Visual indicators", "Completion rates", "Analytics dashboard"]
     },
     {
-      name: "Emily Johnson",
-      role: "Creative Director",
-      company: "DesignStudio",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-      content: "Finally, a todo app that matches our design standards. Absolutely stunning.",
-      rating: 5,
-      highlight: "Design excellence"
+      step: "03",
+      title: "Stay Focused",
+      description: "Filter tasks by status, priority, or category. Focus on what matters most with our powerful filtering and search capabilities.",
+      icon: ClockIcon,
+      gradient: "from-amber-500 to-orange-600", 
+      features: ["Advanced filtering", "Smart search", "Focus modes"]
     }
   ];
 
@@ -98,6 +95,33 @@ const LandingPage = ({ onGetStarted }) => {
     { number: "99.9%", label: "Uptime" },
     { number: "2M+", label: "Tasks Completed" },
     { number: "4.9", label: "User Rating" }
+  ];
+
+  const benefits = [
+    {
+      icon: "🚀",
+      title: "Boost Productivity",
+      description: "Increase your daily output by up to 40% with smart task management and prioritization",
+      gradient: "from-blue-500 to-indigo-600"
+    },
+    {
+      icon: "🎯",
+      title: "Stay Focused",
+      description: "Eliminate distractions with clean interface and focus-driven design philosophy",
+      gradient: "from-emerald-500 to-teal-600"
+    },
+    {
+      icon: "⚡",
+      title: "Lightning Fast",
+      description: "Instant task creation, real-time updates, and seamless performance across all devices",
+      gradient: "from-amber-500 to-orange-600"
+    },
+    {
+      icon: "🔒",
+      title: "Privacy First",
+      description: "Your data stays local in your browser - no servers, no tracking, complete privacy",
+      gradient: "from-purple-500 to-pink-600"
+    }
   ];
 
   return (
@@ -236,36 +260,7 @@ const LandingPage = ({ onGetStarted }) => {
             transition={{ duration: 0.8, delay: 1 }}
             className="flex flex-col sm:flex-row gap-6 justify-center mb-20"
           >
-            <motion.button
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onGetStarted}
-              className="group relative px-10 py-5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl font-bold text-lg text-white shadow-2xl shadow-blue-500/25 overflow-hidden"
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              />
-              <span className="relative flex items-center gap-3">
-                Start Your Journey
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowRightIcon className="w-5 h-5" />
-                </motion.div>
-              </span>
-            </motion.button>
             
-            <motion.button
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className="group px-10 py-5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl font-bold text-lg text-white hover:bg-white/20 transition-all duration-300"
-            >
-              <span className="flex items-center gap-3">
-                <PlayIcon className="w-5 h-5" />
-                Watch Demo
-              </span>
-            </motion.button>
           </motion.div>
 
           {/* Hero Preview */}
@@ -298,7 +293,7 @@ const LandingPage = ({ onGetStarted }) => {
                       <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     </div>
-                    <div className="text-white/60 text-sm">Task Flow Premium</div>
+                    <div className="text-white/60 text-sm">Task Flow </div>
                   </div>
 
                   {/* Dashboard Preview */}
@@ -479,8 +474,8 @@ const LandingPage = ({ onGetStarted }) => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="relative z-10 py-32 bg-white/5 backdrop-blur-xl">
+      {/* Workflow Steps Section */}
+      <section className="relative z-10 py-32">
         <div className="container mx-auto px-6 max-w-7xl">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -490,17 +485,17 @@ const LandingPage = ({ onGetStarted }) => {
           >
             <h2 className="text-5xl md:text-6xl font-black mb-6">
               <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                Loved by
+                How It
               </span>
               <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                {" "}Thousands
+                {" "}Works
               </span>
             </h2>
-            <p className="text-xl text-gray-300">Industry leaders trust Task Flow for their productivity needs</p>
+            <p className="text-xl text-gray-300">Follow these simple steps to transform your productivity</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
+            {workflowSteps.map((step, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
@@ -512,44 +507,127 @@ const LandingPage = ({ onGetStarted }) => {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
                 <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 group-hover:bg-white/15 transition-all duration-500">
-                  <div className="flex items-center mb-6">
-                    {[...Array(testimonial.rating)].map((_, i) => (
+                  <div className="flex items-center justify-between mb-6">
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-2xl`}
+                    >
+                      <step.icon className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <div className="text-6xl font-black text-white/10 group-hover:text-blue-300/20 transition-colors">
+                      {step.step}
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors">
+                    {step.title}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed text-lg mb-6">
+                    {step.description}
+                  </p>
+                  
+                  <div className="space-y-2">
+                    {step.features.map((feature, featureIndex) => (
                       <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                        key={featureIndex}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.1 * i }}
+                        transition={{ delay: 0.1 * featureIndex }}
+                        className="flex items-center text-sm text-blue-300"
                       >
-                        <StarIcon className="w-5 h-5 text-yellow-400 fill-current" />
+                        <CheckIconSolid className="w-4 h-4 mr-2 text-green-400" />
+                        {feature}
                       </motion.div>
                     ))}
                   </div>
-                  <p className="text-gray-300 mb-6 text-lg italic leading-relaxed">
-                    "{testimonial.content}"
-                  </p>
-                  <div className="border-t border-white/20 pt-6">
-                    <div className="flex items-center">
-                      <motion.img
-                        whileHover={{ scale: 1.1 }}
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        className="w-14 h-14 rounded-full mr-4 border-2 border-white/20"
-                      />
-                      <div>
-                        <div className="font-bold text-white text-lg">{testimonial.name}</div>
-                        <div className="text-blue-300 text-sm">{testimonial.role}</div>
-                        <div className="text-gray-400 text-xs">{testimonial.company}</div>
-                      </div>
-                    </div>
-                    <div className="mt-4 inline-block px-3 py-1 bg-gradient-to-r from-blue-600/30 to-indigo-600/30 rounded-full text-sm text-blue-300 border border-blue-500/30">
-                      {testimonial.highlight}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Task Flow Section */}
+      <section className="relative z-10 py-32 bg-white/5 backdrop-blur-xl">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-5xl md:text-6xl font-black mb-6">
+              <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Why Choose
+              </span>
+              <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                {" "}Task Flow?
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300">Experience the perfect blend of simplicity and power</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.15 }}
+                whileHover={{ scale: 1.02, y: -10 }}
+                className="group relative"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 group-hover:bg-white/15 group-hover:border-white/30 transition-all duration-500">
+                  <div className="flex items-start gap-6">
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${benefit.gradient} flex items-center justify-center shadow-2xl text-2xl`}
+                    >
+                      {benefit.icon}
+                    </motion.div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-gray-300 leading-relaxed text-lg group-hover:text-gray-200 transition-colors">
+                        {benefit.description}
+                      </p>
                     </div>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Testimonial Quote */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+            className="mt-20 text-center"
+          >
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 rounded-3xl blur-2xl" />
+              <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-12 max-w-4xl mx-auto">
+                <blockquote className="text-2xl md:text-3xl font-light text-white/90 italic mb-8 leading-relaxed">
+                  "Task Flow transformed how I manage my daily workflow. It's beautifully simple yet incredibly powerful."
+                </blockquote>
+                <div className="flex items-center justify-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                    A
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold">Alex Thompson</div>
+                    <div className="text-gray-400 text-sm">Product Manager at TechCorp</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -642,8 +720,8 @@ const LandingPage = ({ onGetStarted }) => {
               viewport={{ once: true }}
               className="text-gray-400 text-center md:text-right"
             >
-              <div className="mb-2">© 2024 Task Flow. All rights reserved.</div>
-              <div className="text-sm">Crafted with ❤️ for productivity enthusiasts worldwide.</div>
+              <div className="mb-2">© 2025 Task Flow. All rights reserved.</div>
+              <div className="text-sm">MADE WITH ❤️<br></br> THARUKSHA WICKRAMARACHCHI</div>
             </motion.div>
           </div>
         </div>
