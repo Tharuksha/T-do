@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LandingPage from "./components/LandingPage";
 import TodoApp from "./components/TodoApp";
+import ChatBot from "./components/ChatBot";
 
 function App() {
   const [showApp, setShowApp] = useState(false);
@@ -13,11 +14,16 @@ function App() {
     setShowApp(false);
   };
 
-  if (showApp) {
-    return <TodoApp onBackToLanding={handleBackToLanding} />;
-  }
-
-  return <LandingPage onGetStarted={handleGetStarted} />;
+  return (
+    <>
+      {showApp ? (
+        <TodoApp onBackToLanding={handleBackToLanding} />
+      ) : (
+        <LandingPage onGetStarted={handleGetStarted} />
+      )}
+      <ChatBot />
+    </>
+  );
 }
 
 export default App;
